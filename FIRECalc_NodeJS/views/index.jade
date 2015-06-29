@@ -1,0 +1,47 @@
+﻿extends layout
+
+block content
+  h1= title
+  p Ticker Info List
+
+  div(style='display:none;' data-bind='visible: Quotes.pageLoaded()')
+
+      input(type='button' data-bind="value: (Quotes.edit() ? 'Save Shares' : 'Edit Shares'), click: function() { (Quotes.edit() ? Quotes.editShares() : Quotes.saveShares()) }")
+
+      table(id='tblQuotes')
+        thead
+            tr
+                th
+                th
+                    span Symbol
+                th
+                    span Name
+                th
+                    span Price
+                th
+                    span Time
+                th
+                    span Shares
+                th
+                    span Value
+        tbody(data-bind='foreach:tickerInfoList')
+            tr
+                td
+                    img(data-bind="attr:{src: price() > 0 ? '/images/StockIndexUp.png' : '/images/StockIndexDown.png'}")
+                td
+                    span(data-bind='text:symbol')
+                td
+                    span(data-bind='text:name')
+                td
+                    span(data-bind='text:price.formatted')
+                td
+                    span(data-bind='text:time')
+                td
+                    input(type='text' data-bind="value:userShares, enable: Quotes.edit()")
+                td
+                    span(data-bind='text:valueFormatted()')
+        tfoot
+            tr
+                td(colspan='6')
+                td
+                    span(data-bind='text:totals()')
